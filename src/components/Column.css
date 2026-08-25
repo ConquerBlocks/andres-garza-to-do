@@ -57,10 +57,13 @@
 
 .column__empty {
   margin: 0;
-  padding: var(--space-3) 0;
+  padding: var(--space-3) var(--space-2);
   text-align: center;
   font-size: 14px;
+  line-height: 1.5;
   color: var(--color-text-muted);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-sm);
 }
 
 @media (min-width: 640px) {

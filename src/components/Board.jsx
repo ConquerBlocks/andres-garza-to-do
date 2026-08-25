@@ -2,7 +2,15 @@ import Column from './Column.jsx'
 import { STATUSES } from '../data.js'
 import './Board.css'
 
-function Board({ tasks, categories, activeStatus, onChangeActiveStatus, onSelectTask, onMoveTask }) {
+function Board({
+  tasks,
+  categories,
+  isFiltering,
+  activeStatus,
+  onChangeActiveStatus,
+  onSelectTask,
+  onMoveTask,
+}) {
   const tasksByStatus = Object.fromEntries(
     STATUSES.map((status) => [status.id, tasks.filter((task) => task.status === status.id)]),
   )
@@ -40,6 +48,7 @@ function Board({ tasks, categories, activeStatus, onChangeActiveStatus, onSelect
             tasks={tasksByStatus[status.id]}
             categories={categories}
             isActive={status.id === activeStatus}
+            isFiltering={isFiltering}
             onSelectTask={onSelectTask}
             onMoveTask={onMoveTask}
           />

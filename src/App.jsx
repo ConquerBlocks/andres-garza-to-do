@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import Header from './components/Header.jsx'
 import Board from './components/Board.jsx'
 import Modal from './components/Modal.jsx'
 import TaskForm from './components/TaskForm.jsx'
@@ -8,6 +9,15 @@ import { createTask, STATUSES } from './data.js'
 import { loadBoard, saveBoard } from './storage.js'
 import './App.css'
 
+// Case- and accent-insensitive comparison so "cafe" matches "Café".
+function normalizeText(text) {
+  return text
+    .normalize('NFD')
+    .replace(/\p{Diacritic}/gu, '')
+    .toLowerCase()
+    .trim()
+}
+
 function App() {
   const [board, setBoard] = useState(loadBoard)
   const [isTaskFormOpen, setIsTaskFormOpen] = useState(false)
@@ -15,6 +25,8 @@ function App() {
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false)
   // Column shown on small screens, where only one column is visible at a time.
   const [activeStatus, setActiveStatus] = useState(STATUSES[0].id)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [categoryFilter, setCategoryFilter] = useState('all')
 
   useEffect(() => {
     saveBoard(board)
@@ -22,6 +34,14 @@ function App() {
 
   // Always resolve the selected task from state by id, so the panel never shows stale data.
   const selectedTask = board.tasks.find((task) => task.id === selectedTaskId) ?? null
+
+  const normalizedQuery = normalizeText(searchQuery)
+  const isFiltering = normalizedQuery !== '' || categoryFilter !== 'all'
+  const visibleTasks = board.tasks.filter(
+    (task) =>
+      (categoryFilter === 'all' || task.category === categoryFilter) &&
+      (normalizedQuery === '' || normalizeText(task.title).includes(normalizedQuery)),
+  )
 
   function openTaskForm() {
     setIsTaskFormOpen(true)
@@ -73,16 +93,19 @@ function App() {
 
   return (
     <div className="app">
-      <header className="app__header">
-        <h1 className="app__title">TaskBoard</h1>
-        <button type="button" className="button button--primary app__new-task" onClick={openTaskForm}>
-          Nueva tarea
-        </button>
-      </header>
+      <Header
+        categories={board.categories}
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        categoryFilter={categoryFilter}
+        onCategoryFilterChange={setCategoryFilter}
+        onNewTask={openTaskForm}
+      />
       <main>
         <Board
-          tasks={board.tasks}
+          tasks={visibleTasks}
           categories={board.categories}
+          isFiltering={isFiltering}
           activeStatus={activeStatus}
           onChangeActiveStatus={setActiveStatus}
           onSelectTask={setSelectedTaskId}

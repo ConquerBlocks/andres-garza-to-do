@@ -2,7 +2,22 @@ import { useState } from 'react'
 import TaskCard from './TaskCard.jsx'
 import './Column.css'
 
-function Column({ status, title, tasks, categories, isActive, onSelectTask, onMoveTask }) {
+const EMPTY_MESSAGES = {
+  todo: 'Nada pendiente. Crea una tarea nueva cuando quieras.',
+  in_progress: 'Nada en marcha. Mueve aquí una tarea para empezar.',
+  done: 'Aún no hay tareas terminadas. Todo llegará.',
+}
+
+function Column({
+  status,
+  title,
+  tasks,
+  categories,
+  isActive,
+  isFiltering,
+  onSelectTask,
+  onMoveTask,
+}) {
   const [isDragOver, setIsDragOver] = useState(false)
 
   function handleDragOver(event) {
@@ -51,7 +66,9 @@ function Column({ status, title, tasks, categories, isActive, onSelectTask, onMo
         </span>
       </header>
       {tasks.length === 0 ? (
-        <p className="column__empty">No hay tareas</p>
+        <p className="column__empty">
+          {isFiltering ? 'Ninguna tarea coincide con los filtros.' : EMPTY_MESSAGES[status]}
+        </p>
       ) : (
         <ul className="column__list">
           {tasks.map((task) => (
