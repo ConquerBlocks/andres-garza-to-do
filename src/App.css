@@ -1,6 +1,7 @@
 .app {
   min-height: 100vh;
-  padding: var(--space-2);
+  /* Leave room for the floating action button on small screens. */
+  padding: var(--space-2) var(--space-2) 96px;
 }
 
 .app__header {
@@ -8,15 +9,76 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-2);
-  margin-bottom: var(--space-3);
+  margin-bottom: var(--space-2);
 }
 
 .app__title {
-  font-size: 32px;
+  font-size: 28px;
   line-height: 1.2;
 }
 
-@media (min-width: 768px) {
+/* On phones the header button is replaced by the floating action button. */
+.app__new-task {
+  display: none;
+}
+
+.app__fab {
+  position: fixed;
+  right: var(--space-2);
+  bottom: var(--space-2);
+  z-index: 5;
+  width: 56px;
+  height: 56px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--color-bg);
+  background: var(--color-orange);
+  border: none;
+  border-radius: 50%;
+  box-shadow: var(--shadow-elevation);
+  cursor: pointer;
+  transition:
+    transform var(--transition),
+    background-color var(--transition);
+}
+
+.app__fab:hover {
+  transform: translateY(-1px);
+  background: var(--color-amber);
+}
+
+.app__fab:active {
+  transform: scale(0.98);
+}
+
+@media (min-width: 640px) {
+  .app {
+    padding: var(--space-3);
+  }
+
+  .app__header {
+    margin-bottom: var(--space-3);
+  }
+
+  .app__title {
+    font-size: 32px;
+  }
+
+  .app__new-task {
+    display: inline-flex;
+  }
+
+  .app__fab {
+    display: none;
+  }
+}
+
+@media (min-width: 1024px) {
   .app {
     padding: var(--space-4);
   }

@@ -6,7 +6,8 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
-  cursor: grab;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
   transition:
     transform var(--transition),
     border-color var(--transition);
@@ -78,4 +79,59 @@
 
 .task-card__priority--high::before {
   background: var(--color-terra);
+}
+
+.task-card__actions {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-1);
+  margin-top: var(--space-1);
+  padding-top: var(--space-1);
+  border-top: 1px solid var(--color-border);
+}
+
+.task-card__move {
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  line-height: 1;
+  color: var(--color-text-body);
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform var(--transition),
+    color var(--transition),
+    border-color var(--transition);
+}
+
+.task-card__move:hover:not(:disabled) {
+  color: var(--color-orange);
+  border-color: var(--color-orange);
+}
+
+.task-card__move:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.task-card__move:disabled {
+  color: var(--color-text-muted);
+  cursor: default;
+  opacity: 0.5;
+}
+
+/* Tablet and up: drag and drop replaces the move buttons. */
+@media (min-width: 640px) {
+  .task-card {
+    cursor: grab;
+  }
+
+  .task-card__actions {
+    display: none;
+  }
 }

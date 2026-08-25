@@ -23,10 +23,13 @@
   color: var(--color-text-secondary);
 }
 
+/* 16px prevents iOS from zooming into focused inputs; 44px is the minimum touch target. */
 .task-form__input {
   width: 100%;
+  min-height: 44px;
   padding: var(--space-1) 12px;
-  font: inherit;
+  font-family: var(--font-body);
+  font-size: 16px;
   color: var(--color-text-title);
   background: var(--color-bg);
   border: 1px solid var(--color-border);
@@ -44,7 +47,7 @@
 
 .task-form__textarea {
   resize: vertical;
-  min-height: 80px;
+  min-height: 88px;
 }
 
 .task-form__error {
@@ -54,14 +57,19 @@
 }
 
 .task-form__actions {
-  display: flex;
-  justify-content: flex-end;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: var(--space-1);
   margin-top: var(--space-1);
 }
 
-@media (min-width: 768px) {
+@media (min-width: 640px) {
   .task-form__row {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .task-form__actions {
+    display: flex;
+    justify-content: flex-end;
   }
 }

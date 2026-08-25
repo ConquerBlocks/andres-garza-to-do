@@ -2,7 +2,7 @@ import { useState } from 'react'
 import TaskCard from './TaskCard.jsx'
 import './Column.css'
 
-function Column({ status, title, tasks, categories, onSelectTask, onDropTask }) {
+function Column({ status, title, tasks, categories, isActive, onSelectTask, onMoveTask }) {
   const [isDragOver, setIsDragOver] = useState(false)
 
   function handleDragOver(event) {
@@ -22,33 +22,50 @@ function Column({ status, title, tasks, categories, onSelectTask, onDropTask }) 
     event.preventDefault()
     setIsDragOver(false)
     const taskId = event.dataTransfer.getData('text/plain')
-    if (taskId) onDropTask(taskId, status)
+    if (taskId) onMoveTask(taskId, status)
   }
+
+  const className = [
+    'column',
+    isActive ? 'column--active' : '',
+    isDragOver ? 'column--drag-over' : '',
+  ]
+    .filter(Boolean)
+    .join(' ')
 
   return (
     <section
-      className={`column${isDragOver ? ' column--drag-over' : ''}`}
+      id={`column-${status}`}
+      className={className}
+      aria-labelledby={`column-title-${status}`}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
     >
       <header className="column__header">
-        <h2 className="column__title">{title}</h2>
+        <h2 id={`column-title-${status}`} className="column__title">
+          {title}
+        </h2>
         <span className="column__count" aria-label={`${tasks.length} tareas`}>
           {tasks.length}
         </span>
       </header>
-      <ul className="column__list">
-        {tasks.map((task) => (
-          <li key={task.id}>
-            <TaskCard
-              task={task}
-              category={categories.find((category) => category.id === task.category)}
-              onSelect={onSelectTask}
-            />
-          </li>
-        ))}
-      </ul>
+      {tasks.length === 0 ? (
+        <p className="column__empty">No hay tareas</p>
+      ) : (
+        <ul className="column__list">
+          {tasks.map((task) => (
+            <li key={task.id}>
+              <TaskCard
+                task={task}
+                category={categories.find((category) => category.id === task.category)}
+                onSelect={onSelectTask}
+                onMove={onMoveTask}
+              />
+            </li>
+          ))}
+        </ul>
+      )}
     </section>
   )
 }

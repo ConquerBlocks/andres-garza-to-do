@@ -4,7 +4,7 @@ import Modal from './components/Modal.jsx'
 import TaskForm from './components/TaskForm.jsx'
 import TaskPanel from './components/TaskPanel.jsx'
 import ConfirmDialog from './components/ConfirmDialog.jsx'
-import { createTask } from './data.js'
+import { createTask, STATUSES } from './data.js'
 import { loadBoard, saveBoard } from './storage.js'
 import './App.css'
 
@@ -13,6 +13,8 @@ function App() {
   const [isTaskFormOpen, setIsTaskFormOpen] = useState(false)
   const [selectedTaskId, setSelectedTaskId] = useState(null)
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false)
+  // Column shown on small screens, where only one column is visible at a time.
+  const [activeStatus, setActiveStatus] = useState(STATUSES[0].id)
 
   useEffect(() => {
     saveBoard(board)
@@ -73,7 +75,7 @@ function App() {
     <div className="app">
       <header className="app__header">
         <h1 className="app__title">TaskBoard</h1>
-        <button type="button" className="button button--primary" onClick={openTaskForm}>
+        <button type="button" className="button button--primary app__new-task" onClick={openTaskForm}>
           Nueva tarea
         </button>
       </header>
@@ -81,10 +83,16 @@ function App() {
         <Board
           tasks={board.tasks}
           categories={board.categories}
+          activeStatus={activeStatus}
+          onChangeActiveStatus={setActiveStatus}
           onSelectTask={setSelectedTaskId}
-          onDropTask={handleMoveTask}
+          onMoveTask={handleMoveTask}
         />
       </main>
+
+      <button type="button" className="app__fab" onClick={openTaskForm} aria-label="Nueva tarea">
+        +
+      </button>
 
       {isTaskFormOpen && (
         <Modal title="Nueva tarea" onClose={closeTaskForm}>

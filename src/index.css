@@ -25,6 +25,11 @@
   --space-4: 32px;
 
   --transition: 150ms ease-out;
+
+  --shadow-elevation:
+    0 2px 5px rgba(0, 0, 0, 0.1),
+    0 9px 9px rgba(0, 0, 0, 0.09),
+    0 20px 12px rgba(0, 0, 0, 0.05);
 }
 
 *,
@@ -57,13 +62,14 @@ h3 {
   outline-offset: 2px;
 }
 
-/* Buttons */
+/* Buttons (44px minimum touch target) */
 .button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 40px;
+  min-height: 44px;
   padding: 0 var(--space-2);
+  -webkit-tap-highlight-color: transparent;
   font-family: var(--font-body);
   font-size: 14px;
   font-weight: 500;
@@ -79,6 +85,10 @@ h3 {
 
 .button:hover {
   transform: translateY(-1px);
+}
+
+.button:active {
+  transform: scale(0.98);
 }
 
 .button--primary {
