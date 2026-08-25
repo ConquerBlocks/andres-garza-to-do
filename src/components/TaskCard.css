@@ -1,7 +1,8 @@
 .task-card {
-  background: var(--color-bg);
+  background: var(--color-surface-raised);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-elevation);
   padding: var(--space-2);
   display: flex;
   flex-direction: column;
@@ -70,7 +71,7 @@
 }
 
 .task-card__priority--low::before {
-  background: var(--color-text-muted);
+  background: var(--color-neutral);
 }
 
 .task-card__priority--medium::before {
@@ -87,7 +88,7 @@
   gap: var(--space-1);
   margin-top: var(--space-1);
   padding-top: var(--space-1);
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid var(--color-border-subtle);
 }
 
 .task-card__move {
@@ -120,7 +121,7 @@
 }
 
 .task-card__move:disabled {
-  color: var(--color-text-muted);
+  color: var(--color-neutral);
   cursor: default;
   opacity: 0.5;
 }

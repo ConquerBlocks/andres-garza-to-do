@@ -39,13 +39,13 @@
 
 .board__tab--active {
   color: var(--color-text-title);
-  background: var(--color-bg);
+  background: var(--color-surface-raised);
   border-color: var(--color-orange);
 }
 
 .board__tab-count {
   font-family: var(--font-display);
-  font-weight: 600;
+  font-weight: 500;
   font-size: 13px;
   color: var(--color-text-muted);
 }

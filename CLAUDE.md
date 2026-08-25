@@ -29,3 +29,24 @@
 - Los colores de categoría (#6366f1, #10b981, #f59e0b) se usan solo como etiqueta/acento pequeño
   dentro de la tarjeta, nunca como fondo completo.
 - Prohibido usar emojis en la interfaz.
+
+## Convenciones del código (mantener en fases futuras)
+
+- Estructura: `src/data.js` (modelo, `STATUSES`, `PRIORITIES`, `createTask`, tablero de ejemplo),
+  `src/storage.js` (`loadBoard`/`saveBoard` con try/catch), `src/components/<Nombre>.jsx` + `<Nombre>.css`
+  con clases BEM (`.task-card__title`, `.column--active`).
+- Todo el estado vive en `App.jsx` (`board`, formulario, tarea seleccionada, pestaña activa, búsqueda,
+  filtro). Solo se permite `useState` local para estado efímero de UI (campos de formulario, drag-over).
+- Las tareas se localizan SIEMPRE por `id` (`find`/`map`/`filter`), nunca por índice. Toda mutación
+  de una tarea actualiza `updatedAt`.
+- Tokens de diseño solo en `src/index.css` (`--color-*`, `--font-*`, `--radius-*`, `--space-*`,
+  `--transition`, `--shadow-elevation`). Ningún color fijo en los CSS de componentes.
+  Superficies: `--color-surface` (blanco cálido, columnas y barra de pestañas) y
+  `--color-surface-raised` (blanco, tarjetas/modales/inputs). Líneas interiores: `--color-border-subtle`.
+- Breakpoints: móvil < 640px (base), tablet `@media (min-width: 640px)`, escritorio `@media (min-width: 1024px)`.
+- Interacción por tamaño: en móvil una columna + pestañas, botones ← / → para mover, bottom sheets y FAB;
+  desde 640px tres columnas, drag & drop nativo, modal centrado y panel lateral de detalle.
+- Objetivos táctiles ≥ 44px; inputs y selects con `font-size: 16px`.
+- Verificación antes de cada commit: `npm run build` y `npm run lint` limpios y comprobación visual en
+  Chrome (móvil ~390px y escritorio 1280px).
+- Commits en español con el formato `fase N: descripción corta`.

@@ -1,17 +1,23 @@
 :root {
-  --color-bg: #000000;
-  --color-surface: #161616;
-  --color-border: #222222;
+  /* Light theme (see CLAUDE.md). Surfaces: warm white for columns, white for raised elements. */
+  --color-bg: #ffffff;
+  --color-surface: #faf8f3;
+  --color-surface-raised: #ffffff;
+  --color-border: #bbb49b;
+  --color-border-subtle: #eeeeee;
+  --color-overlay: rgba(0, 0, 0, 0.4);
 
   --color-amber: #ffbf00;
   --color-orange: #ff8000;
   --color-terra: #ff4000;
   --gradient-brand: linear-gradient(90deg, #ffbf00, #ff8000, #ff4000);
 
-  --color-text-title: #ffffff;
-  --color-text-body: #cccccc;
-  --color-text-secondary: #aaaaaa;
+  --color-text-title: #000000;
+  --color-text-body: #222222;
+  --color-text-secondary: #444444;
   --color-text-muted: #666666;
+  --color-neutral: #aaaaaa;
+  --color-neutral-light: #cccccc;
 
   --font-display: 'Funnel Display', sans-serif;
   --font-body: 'Roboto', sans-serif;
@@ -105,7 +111,7 @@ h3 {
 }
 
 .button--primary {
-  color: var(--color-bg);
+  color: var(--color-text-title);
   background: var(--color-orange);
 }
 
@@ -131,6 +137,6 @@ h3 {
 }
 
 .button--danger:hover {
-  color: var(--color-bg);
+  color: var(--color-text-title);
   background: var(--color-terra);
 }
