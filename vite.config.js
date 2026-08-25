@@ -4,4 +4,8 @@ import { defineConfig } from 'vite'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  server: {
+    // Allow exposing the dev server through Cloudflare quick tunnels (random subdomains).
+    allowedHosts: ['.trycloudflare.com'],
+  },
 })
