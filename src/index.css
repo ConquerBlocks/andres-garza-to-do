@@ -56,3 +56,47 @@ h3 {
   outline: 2px solid var(--color-orange);
   outline-offset: 2px;
 }
+
+/* Buttons */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0 var(--space-2);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition:
+    transform var(--transition),
+    background-color var(--transition),
+    border-color var(--transition),
+    color var(--transition);
+}
+
+.button:hover {
+  transform: translateY(-1px);
+}
+
+.button--primary {
+  color: var(--color-bg);
+  background: var(--color-orange);
+}
+
+.button--primary:hover {
+  background: var(--color-amber);
+}
+
+.button--secondary {
+  color: var(--color-text-body);
+  background: transparent;
+  border-color: var(--color-border);
+}
+
+.button--secondary:hover {
+  color: var(--color-orange);
+  border-color: var(--color-orange);
+}

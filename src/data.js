@@ -8,7 +8,7 @@ export const STATUSES = [
 
 export const PRIORITIES = ['low', 'medium', 'high']
 
-function createTask({ title, description, status, category, priority }) {
+export function createTask({ title, description, status, category, priority }) {
   const now = new Date().toISOString()
   return {
     id: crypto.randomUUID(),
