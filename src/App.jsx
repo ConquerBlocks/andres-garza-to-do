@@ -1,13 +1,18 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Board from './components/Board.jsx'
 import Modal from './components/Modal.jsx'
 import TaskForm from './components/TaskForm.jsx'
-import { sampleBoard, createTask } from './data.js'
+import { createTask } from './data.js'
+import { loadBoard, saveBoard } from './storage.js'
 import './App.css'
 
 function App() {
-  const [board, setBoard] = useState(sampleBoard)
+  const [board, setBoard] = useState(loadBoard)
   const [isTaskFormOpen, setIsTaskFormOpen] = useState(false)
+
+  useEffect(() => {
+    saveBoard(board)
+  }, [board])
 
   function openTaskForm() {
     setIsTaskFormOpen(true)
