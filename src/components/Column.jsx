@@ -1,7 +1,7 @@
 import TaskCard from './TaskCard.jsx'
 import './Column.css'
 
-function Column({ title, tasks, categories }) {
+function Column({ title, tasks, categories, onSelectTask }) {
   return (
     <section className="column">
       <header className="column__header">
@@ -16,6 +16,7 @@ function Column({ title, tasks, categories }) {
             <TaskCard
               task={task}
               category={categories.find((category) => category.id === task.category)}
+              onSelect={onSelectTask}
             />
           </li>
         ))}

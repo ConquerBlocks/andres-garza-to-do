@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { PRIORITIES } from '../data.js'
+import { PRIORITIES, STATUSES } from '../data.js'
 import './TaskForm.css'
 
 const PRIORITY_LABELS = {
@@ -8,11 +8,14 @@ const PRIORITY_LABELS = {
   high: 'Alta',
 }
 
-function TaskForm({ categories, onSubmit, onCancel }) {
-  const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
-  const [category, setCategory] = useState(categories[0]?.id ?? '')
-  const [priority, setPriority] = useState('medium')
+// `task` is optional: when present the form edits it (and exposes the status field).
+function TaskForm({ task, categories, onSubmit, onCancel, submitLabel = 'Guardar' }) {
+  const isEditing = Boolean(task)
+  const [title, setTitle] = useState(task?.title ?? '')
+  const [description, setDescription] = useState(task?.description ?? '')
+  const [category, setCategory] = useState(task?.category ?? categories[0]?.id ?? '')
+  const [priority, setPriority] = useState(task?.priority ?? 'medium')
+  const [status, setStatus] = useState(task?.status ?? 'todo')
   const [titleError, setTitleError] = useState('')
 
   function handleSubmit(event) {
@@ -22,7 +25,8 @@ function TaskForm({ categories, onSubmit, onCancel }) {
       setTitleError('El título es obligatorio')
       return
     }
-    onSubmit({ title: trimmedTitle, description: description.trim(), category, priority })
+    const values = { title: trimmedTitle, description: description.trim(), category, priority }
+    onSubmit(isEditing ? { ...values, status } : values)
   }
 
   function handleTitleChange(event) {
@@ -104,12 +108,32 @@ function TaskForm({ categories, onSubmit, onCancel }) {
         </div>
       </div>
 
+      {isEditing && (
+        <div className="task-form__field">
+          <label className="task-form__label" htmlFor="task-status">
+            Estado
+          </label>
+          <select
+            id="task-status"
+            className="task-form__input"
+            value={status}
+            onChange={(event) => setStatus(event.target.value)}
+          >
+            {STATUSES.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.title}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
+
       <div className="task-form__actions">
         <button type="button" className="button button--secondary" onClick={onCancel}>
           Cancelar
         </button>
         <button type="submit" className="button button--primary">
-          Guardar
+          {submitLabel}
         </button>
       </div>
     </form>

@@ -6,9 +6,22 @@ const PRIORITY_LABELS = {
   high: 'Alta',
 }
 
-function TaskCard({ task, category }) {
+function TaskCard({ task, category, onSelect }) {
+  function handleKeyDown(event) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault()
+      onSelect(task.id)
+    }
+  }
+
   return (
-    <article className="task-card">
+    <article
+      className="task-card"
+      role="button"
+      tabIndex={0}
+      onClick={() => onSelect(task.id)}
+      onKeyDown={handleKeyDown}
+    >
       <h3 className="task-card__title">{task.title}</h3>
       <div className="task-card__meta">
         {category && (

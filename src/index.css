@@ -100,3 +100,14 @@ h3 {
   color: var(--color-orange);
   border-color: var(--color-orange);
 }
+
+.button--danger {
+  color: var(--color-terra);
+  background: transparent;
+  border-color: var(--color-terra);
+}
+
+.button--danger:hover {
+  color: var(--color-bg);
+  background: var(--color-terra);
+}
