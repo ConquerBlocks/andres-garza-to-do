@@ -1,0 +1,23 @@
+.app {
+  min-height: 100vh;
+  padding: var(--space-2);
+}
+
+.app__header {
+  margin-bottom: var(--space-3);
+}
+
+.app__title {
+  font-size: 32px;
+  line-height: 1.2;
+}
+
+@media (min-width: 768px) {
+  .app {
+    padding: var(--space-4);
+  }
+
+  .app__title {
+    font-size: 40px;
+  }
+}
