@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import './TaskCard.css'
 
 const PRIORITY_LABELS = {
@@ -7,6 +8,8 @@ const PRIORITY_LABELS = {
 }
 
 function TaskCard({ task, category, onSelect }) {
+  const [isDragging, setIsDragging] = useState(false)
+
   function handleKeyDown(event) {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault()
@@ -14,13 +17,22 @@ function TaskCard({ task, category, onSelect }) {
     }
   }
 
+  function handleDragStart(event) {
+    event.dataTransfer.setData('text/plain', task.id)
+    event.dataTransfer.effectAllowed = 'move'
+    setIsDragging(true)
+  }
+
   return (
     <article
-      className="task-card"
+      className={`task-card${isDragging ? ' task-card--dragging' : ''}`}
       role="button"
       tabIndex={0}
+      draggable
       onClick={() => onSelect(task.id)}
       onKeyDown={handleKeyDown}
+      onDragStart={handleDragStart}
+      onDragEnd={() => setIsDragging(false)}
     >
       <h3 className="task-card__title">{task.title}</h3>
       <div className="task-card__meta">

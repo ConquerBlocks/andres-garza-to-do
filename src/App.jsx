@@ -51,6 +51,16 @@ function App() {
     closeTaskPanel()
   }
 
+  function handleMoveTask(taskId, status) {
+    const updatedAt = new Date().toISOString()
+    setBoard((current) => ({
+      ...current,
+      tasks: current.tasks.map((task) =>
+        task.id === taskId && task.status !== status ? { ...task, status, updatedAt } : task,
+      ),
+    }))
+  }
+
   function handleDeleteTask(taskId) {
     setBoard((current) => ({
       ...current,
@@ -68,7 +78,12 @@ function App() {
         </button>
       </header>
       <main>
-        <Board tasks={board.tasks} categories={board.categories} onSelectTask={setSelectedTaskId} />
+        <Board
+          tasks={board.tasks}
+          categories={board.categories}
+          onSelectTask={setSelectedTaskId}
+          onDropTask={handleMoveTask}
+        />
       </main>
 
       {isTaskFormOpen && (

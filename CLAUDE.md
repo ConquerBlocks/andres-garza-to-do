@@ -11,16 +11,21 @@
 
 ## Estilo visual (respetar SIEMPRE)
 
-- Tema oscuro: fondo #000000, superficies/tarjetas #161616 con borde 1px #222222.
-- Colores de marca: ámbar #FFBF00, naranjargb(116, 104, 92) (color primario, botones y acentos), terra #FF4000.
-  Gradiente de marca para momentos destacados: linear-gradient(90deg, #FFBF00, #FF8000, #FF4000).
-- Neutros para texto: #FFFFFF títulos, #CCCCCC cuerpo, #AAAAAA secundario, #666666 apagado.
-- Tipografías (Google Fonts): "Funnel Display" (600/700) para títulos y cifras; "Roboto" (400/500/700)
-  para el cuerpo y la UI. Definirlas como variables CSS y no usar ninguna otra.
+- Tema claro: fondo blanco #FFFFFF, texto en negro #000000.
+- Superficies (columnas, tarjetas, modales): blanco o blanco cálido, borde 1px #BBB49B (beige cálido).
+- Colores de marca: ámbar #FFBF00, naranja #FF8000 (color primario: botones y acentos), terra #FF4000.
+  El gradiente linear-gradient(90deg, #FFBF00, #FF8000, #FF4000) se reserva para el CTA principal
+  y pequeños acentos — NUNCA como fondo de página ni de secciones.
+- Neutros para texto y UI: #222222, #444444, #666666, #AAAAAA, #CCCCCC, #EEEEEE.
+- Tipografías (Google Fonts): "Funnel Display" (500/600/700) para títulos y contadores; "Roboto"
+  (400/500/700) para el cuerpo y la UI. Definirlas como variables CSS y no usar ninguna otra.
 - Radios: 8px en botones, inputs y tarjetas de tarea; 16px en columnas, modales y bottom sheet.
+- Sombra de elevación para tarjetas y modales (usarla tal cual):
+  0 2px 5px rgba(0,0,0,0.10), 0 9px 9px rgba(0,0,0,0.09), 0 20px 12px rgba(0,0,0,0.05).
 - Espaciado en múltiplos de 8px.
-- Estados: hover con translateY(-1px) y acento naranja; focus visible con outline 2px #FF8000;
-  transiciones de 150ms ease-out. Nada de animaciones grandes.
+- Estados: hover con translateY(-1px) y acento naranja; press scale(0.98); focus visible con outline
+  2px #FF8000 con 2px de offset; transiciones de 150ms ease-out. Nada de animaciones grandes.
+- Nada de glassmorphism ni backdrop-blur.
 - Los colores de categoría (#6366f1, #10b981, #f59e0b) se usan solo como etiqueta/acento pequeño
   dentro de la tarjeta, nunca como fondo completo.
 - Prohibido usar emojis en la interfaz.
