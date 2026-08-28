@@ -6,8 +6,7 @@ import TaskForm from './components/TaskForm.jsx'
 import TaskPanel from './components/TaskPanel.jsx'
 import ConfirmDialog from './components/ConfirmDialog.jsx'
 import { createTask, STATUSES } from './data.js'
-import { loadBoard, saveBoard } from './storage.js'
-import './App.css'
+import { loadBoard, saveBoard, loadTheme, saveTheme } from './storage.js'
 
 // Case- and accent-insensitive comparison so "cafe" matches "Café".
 function normalizeText(text) {
@@ -20,6 +19,7 @@ function normalizeText(text) {
 
 function App() {
   const [board, setBoard] = useState(loadBoard)
+  const [theme, setTheme] = useState(loadTheme)
   const [isTaskFormOpen, setIsTaskFormOpen] = useState(false)
   const [selectedTaskId, setSelectedTaskId] = useState(null)
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false)
@@ -32,6 +32,12 @@ function App() {
     saveBoard(board)
   }, [board])
 
+  // The theme is applied on <html> so the token overrides in index.css reach every element.
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme
+    saveTheme(theme)
+  }, [theme])
+
   // Always resolve the selected task from state by id, so the panel never shows stale data.
   const selectedTask = board.tasks.find((task) => task.id === selectedTaskId) ?? null
 
@@ -42,6 +48,10 @@ function App() {
       (categoryFilter === 'all' || task.category === categoryFilter) &&
       (normalizedQuery === '' || normalizeText(task.title).includes(normalizedQuery)),
   )
+
+  function toggleTheme() {
+    setTheme((current) => (current === 'dark' ? 'light' : 'dark'))
+  }
 
   function openTaskForm() {
     setIsTaskFormOpen(true)
@@ -91,8 +101,9 @@ function App() {
     closeTaskPanel()
   }
 
+  // Bottom padding leaves room for the floating action button on small screens.
   return (
-    <div className="app">
+    <div className="min-h-screen p-4 pb-24 sm:p-6 lg:p-8">
       <Header
         categories={board.categories}
         searchQuery={searchQuery}
@@ -100,6 +111,8 @@ function App() {
         categoryFilter={categoryFilter}
         onCategoryFilterChange={setCategoryFilter}
         onNewTask={openTaskForm}
+        theme={theme}
+        onToggleTheme={toggleTheme}
       />
       <main>
         <Board
@@ -113,7 +126,12 @@ function App() {
         />
       </main>
 
-      <button type="button" className="app__fab" onClick={openTaskForm} aria-label="Nueva tarea">
+      <button
+        type="button"
+        className="clip-pixel fixed right-4 bottom-4 z-5 inline-flex size-14 items-center justify-center bg-brand-gradient font-display text-[28px] leading-none font-semibold text-white transition hover:scale-[1.025] hover:animate-pixel-glitch active:scale-98 sm:hidden"
+        onClick={openTaskForm}
+        aria-label="Nueva tarea"
+      >
         +
       </button>
 

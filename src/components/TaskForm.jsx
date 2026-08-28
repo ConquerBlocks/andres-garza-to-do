@@ -1,12 +1,18 @@
 import { useState } from 'react'
 import { PRIORITIES, STATUSES } from '../data.js'
-import './TaskForm.css'
+import Button from './Button.jsx'
 
 const PRIORITY_LABELS = {
   low: 'Baja',
   medium: 'Media',
   high: 'Alta',
 }
+
+const FIELD_CLASSES = 'flex min-w-0 flex-col gap-2'
+const LABEL_CLASSES = 'text-sm font-medium text-secondary'
+// 16px prevents iOS from zooming into focused inputs; 44px is the minimum touch target.
+const INPUT_CLASSES =
+  'min-h-11 w-full rounded-sm border border-line bg-bg px-3 py-2 font-body text-base text-title transition hover:border-orange'
 
 // `task` is optional: when present the form edits it (and exposes the status field).
 function TaskForm({ task, categories, onSubmit, onCancel, submitLabel = 'Guardar' }) {
@@ -35,14 +41,14 @@ function TaskForm({ task, categories, onSubmit, onCancel, submitLabel = 'Guardar
   }
 
   return (
-    <form className="task-form" onSubmit={handleSubmit} noValidate>
-      <div className="task-form__field">
-        <label className="task-form__label" htmlFor="task-title">
+    <form className="flex flex-col gap-4" onSubmit={handleSubmit} noValidate>
+      <div className={FIELD_CLASSES}>
+        <label className={LABEL_CLASSES} htmlFor="task-title">
           Título
         </label>
         <input
           id="task-title"
-          className={`task-form__input${titleError ? ' task-form__input--invalid' : ''}`}
+          className={`${INPUT_CLASSES}${titleError ? ' border-terra' : ''}`}
           type="text"
           value={title}
           onChange={handleTitleChange}
@@ -51,33 +57,33 @@ function TaskForm({ task, categories, onSubmit, onCancel, submitLabel = 'Guardar
           autoFocus
         />
         {titleError && (
-          <p id="task-title-error" className="task-form__error" role="alert">
+          <p id="task-title-error" className="text-[13px] text-terra" role="alert">
             {titleError}
           </p>
         )}
       </div>
 
-      <div className="task-form__field">
-        <label className="task-form__label" htmlFor="task-description">
+      <div className={FIELD_CLASSES}>
+        <label className={LABEL_CLASSES} htmlFor="task-description">
           Descripción
         </label>
         <textarea
           id="task-description"
-          className="task-form__input task-form__textarea"
+          className={`${INPUT_CLASSES} min-h-22 resize-y`}
           rows="3"
           value={description}
           onChange={(event) => setDescription(event.target.value)}
         />
       </div>
 
-      <div className="task-form__row">
-        <div className="task-form__field">
-          <label className="task-form__label" htmlFor="task-category">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div className={FIELD_CLASSES}>
+          <label className={LABEL_CLASSES} htmlFor="task-category">
             Categoría
           </label>
           <select
             id="task-category"
-            className="task-form__input"
+            className={INPUT_CLASSES}
             value={category}
             onChange={(event) => setCategory(event.target.value)}
           >
@@ -89,13 +95,13 @@ function TaskForm({ task, categories, onSubmit, onCancel, submitLabel = 'Guardar
           </select>
         </div>
 
-        <div className="task-form__field">
-          <label className="task-form__label" htmlFor="task-priority">
+        <div className={FIELD_CLASSES}>
+          <label className={LABEL_CLASSES} htmlFor="task-priority">
             Prioridad
           </label>
           <select
             id="task-priority"
-            className="task-form__input"
+            className={INPUT_CLASSES}
             value={priority}
             onChange={(event) => setPriority(event.target.value)}
           >
@@ -109,13 +115,13 @@ function TaskForm({ task, categories, onSubmit, onCancel, submitLabel = 'Guardar
       </div>
 
       {isEditing && (
-        <div className="task-form__field">
-          <label className="task-form__label" htmlFor="task-status">
+        <div className={FIELD_CLASSES}>
+          <label className={LABEL_CLASSES} htmlFor="task-status">
             Estado
           </label>
           <select
             id="task-status"
-            className="task-form__input"
+            className={INPUT_CLASSES}
             value={status}
             onChange={(event) => setStatus(event.target.value)}
           >
@@ -128,13 +134,11 @@ function TaskForm({ task, categories, onSubmit, onCancel, submitLabel = 'Guardar
         </div>
       )}
 
-      <div className="task-form__actions">
-        <button type="button" className="button button--secondary" onClick={onCancel}>
+      <div className="mt-2 grid grid-cols-2 gap-2 sm:flex sm:justify-end">
+        <Button variant="secondary" onClick={onCancel}>
           Cancelar
-        </button>
-        <button type="submit" className="button button--primary">
-          {submitLabel}
-        </button>
+        </Button>
+        <Button type="submit">{submitLabel}</Button>
       </div>
     </form>
   )

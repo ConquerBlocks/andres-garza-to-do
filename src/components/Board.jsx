@@ -1,6 +1,5 @@
 import Column from './Column.jsx'
 import { STATUSES } from '../data.js'
-import './Board.css'
 
 function Board({
   tasks,
@@ -16,9 +15,13 @@ function Board({
   )
 
   return (
-    <section className="board" aria-label="Tablero de tareas">
+    <section aria-label="Tablero de tareas">
       {/* Tabs are only visible on small screens, where a single column is shown at a time. */}
-      <div className="board__tabs" role="tablist" aria-label="Estado">
+      <div
+        className="mb-4 flex gap-2 overflow-x-auto rounded-lg border border-line bg-surface p-1 sm:hidden"
+        role="tablist"
+        aria-label="Estado"
+      >
         {STATUSES.map((status) => {
           const isActive = status.id === activeStatus
           return (
@@ -29,17 +32,20 @@ function Board({
               id={`tab-${status.id}`}
               aria-selected={isActive}
               aria-controls={`column-${status.id}`}
-              className={`board__tab${isActive ? ' board__tab--active' : ''}`}
+              className="group inline-flex min-h-11 flex-1 items-center justify-center gap-1 rounded-[12px] border border-transparent bg-transparent px-1 font-body text-[13px] font-medium whitespace-nowrap text-secondary transition hover:text-orange aria-selected:border-orange aria-selected:bg-surface-raised aria-selected:text-title"
               onClick={() => onChangeActiveStatus(status.id)}
             >
               <span>{status.title}</span>
-              <span className="board__tab-count">{tasksByStatus[status.id].length}</span>
+              <span className="font-display text-[13px] font-medium text-muted group-aria-selected:text-orange">
+                {tasksByStatus[status.id].length}
+              </span>
             </button>
           )
         })}
       </div>
 
-      <div className="board__columns">
+      {/* Tablet and up: all columns side by side. */}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:items-start lg:gap-6">
         {STATUSES.map((status) => (
           <Column
             key={status.id}

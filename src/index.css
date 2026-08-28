@@ -1,142 +1,168 @@
-:root {
-  /* Light theme (see CLAUDE.md). Surfaces: warm white for columns, white for raised elements. */
-  --color-bg: #ffffff;
+@import 'tailwindcss';
+
+/* Design tokens (see CLAUDE.md). Every value here becomes a Tailwind utility:
+   `bg-surface`, `border-line`, `text-muted`, `font-display`, `rounded-lg`, `shadow-elevation`… */
+@theme {
+  /* Palette taken from conquerblocks.com (Webflow tokens): brand orange 500, gradient stops,
+     neutral scale 50-950 and beige-200. Light theme values live here; dark overrides below. */
+  --color-*: initial;
+  --color-white: #ffffff;
+  --color-bg: #f3f0e8;
   --color-surface: #faf8f3;
   --color-surface-raised: #ffffff;
-  --color-border: #bbb49b;
-  --color-border-subtle: #eeeeee;
-  --color-overlay: rgba(0, 0, 0, 0.4);
+  --color-line: #bbb49b;
+  --color-line-subtle: #e5e5e5;
+  --color-overlay: rgb(0 0 0 / 0.5);
 
   --color-amber: #ffbf00;
-  --color-orange: #ff8000;
+  --color-orange: #ff7700;
   --color-terra: #ff4000;
-  --gradient-brand: linear-gradient(90deg, #ffbf00, #ff8000, #ff4000);
 
-  --color-text-title: #000000;
-  --color-text-body: #222222;
-  --color-text-secondary: #444444;
-  --color-text-muted: #666666;
-  --color-neutral: #aaaaaa;
-  --color-neutral-light: #cccccc;
+  --color-title: #0a0a0a;
+  --color-body: #171717;
+  --color-secondary: #262626;
+  --color-muted: #737373;
+  --color-neutral: #a3a3a3;
+  --color-neutral-light: #d4d4d4;
 
+  /* Category colors are used only as small dots/labels, never as backgrounds. */
+  --color-category-indigo: #6366f1;
+  --color-category-emerald: #10b981;
+  --color-category-amber: #f59e0b;
+
+  --font-*: initial;
   --font-display: 'Funnel Display', sans-serif;
   --font-body: 'Roboto', sans-serif;
+  --default-font-family: var(--font-body);
 
+  --radius-*: initial;
   --radius-sm: 8px;
   --radius-lg: 16px;
 
-  --space-1: 8px;
-  --space-2: 16px;
-  --space-3: 24px;
-  --space-4: 32px;
-
-  --transition: 150ms ease-out;
-
+  --shadow-*: initial;
   --shadow-elevation:
-    0 2px 5px rgba(0, 0, 0, 0.1),
-    0 9px 9px rgba(0, 0, 0, 0.09),
-    0 20px 12px rgba(0, 0, 0, 0.05);
+    0 2px 5px rgb(0 0 0 / 0.1), 0 9px 9px rgb(0 0 0 / 0.09), 0 20px 12px rgb(0 0 0 / 0.05);
+
+  /* Breakpoints: mobile-first base, tablet from 640px, desktop from 1024px. */
+  --breakpoint-*: initial;
+  --breakpoint-sm: 640px;
+  --breakpoint-lg: 1024px;
+
+  /* `transition` utilities: 150ms ease-out everywhere. */
+  --default-transition-duration: 150ms;
+  --default-transition-timing-function: ease-out;
+
+  /* Hover "glitch" of the pixel buttons, copied from conquerblocks.com: three dry steps, no easing. */
+  --animate-pixel-glitch: pixel-glitch 150ms steps(1, end) forwards;
+
+  @keyframes pixel-glitch {
+    0% {
+      clip-path: polygon(
+        98% 65%, 98% 75%, 100% 75%, 100% 100%, 93% 100%, 93% 94%, 75% 94%, 75% 100%, 35% 100%,
+        35% 94%, 15% 94%, 15% 100%, 0% 100%, 0% 70%, 3% 70%, 3% 35%, 0% 35%, 0% 12%, 3% 12%,
+        3% 0%, 15% 0%, 15% 6%, 25% 6%, 25% 0%, 55% 0%, 55% 6%, 85% 6%, 85% 0%, 100% 0%,
+        100% 6%, 98% 6%, 98% 65%
+      );
+    }
+    33.33% {
+      clip-path: polygon(
+        100% 80%, 100% 90%, 96% 90%, 96% 100%, 85% 100%, 85% 92%, 60% 92%, 60% 100%, 20% 100%,
+        20% 92%, 8% 92%, 8% 100%, 0% 100%, 0% 85%, 4% 85%, 4% 45%, 0% 45%, 0% 25%, 4% 25%,
+        4% 0%, 8% 0%, 8% 5%, 18% 5%, 18% 0%, 75% 0%, 75% 5%, 92% 5%, 92% 0%, 100% 0%,
+        100% 5%, 96% 5%, 96% 80%
+      );
+    }
+    66.66%,
+    100% {
+      clip-path: polygon(
+        100% 73.83%, 100% 82.56%, 97.74% 82.56%, 97.74% 100%, 90% 100%, 90% 91.28%, 75% 91.28%,
+        75% 100%, 25% 100%, 25% 91.28%, 14% 91.28%, 14% 100%, 0% 100%, 0% 80.24%, 2.26% 80.24%,
+        2.26% 26.16%, 0% 26.16%, 0% 17.44%, 2.26% 17.44%, 2.26% 0%, 10% 0%, 10% 8.72%, 18% 8.72%,
+        18% 0%, 65% 0%, 65% 8.72%, 82% 8.72%, 82% 0%, 100% 0%, 100% 8.72%, 97.74% 8.72%,
+        97.74% 73.83%
+      );
+    }
+  }
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+/* Pixel-notched silhouette of the brand buttons (same polygon as conquerblocks.com). */
+@utility clip-pixel {
+  clip-path: polygon(
+    97.74% 73.83%, 97.74% 82.56%, 100% 82.56%, 100% 100%, 95.47% 100%, 95.47% 91.28%,
+    81.5% 91.28%, 81.5% 100%, 19.87% 100%, 19.87% 91.28%, 9.06% 91.28%, 9.06% 100%, 2.26% 100%,
+    2.26% 80.24%, 0% 80.24%, 0% 26.16%, 2.26% 26.16%, 2.26% 17.44%, 0% 17.44%, 0% 0%, 4.53% 0%,
+    4.53% 8.72%, 12.82% 8.72%, 12.82% 0%, 72.03% 0%, 72.03% 8.72%, 88.67% 8.72%, 88.67% 0%,
+    97.74% 0%, 97.74% 8.72%, 100% 8.72%, 100% 73.83%
+  );
 }
 
-body {
-  margin: 0;
-  background: var(--color-bg);
-  color: var(--color-text-body);
-  font-family: var(--font-body);
-  font-size: 16px;
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
+/* Highlighted word in headings, as in "Conquer Blocks?" on the site. */
+@utility text-brand-gradient {
+  background-image: linear-gradient(135deg, #ffbf00, #ff4000);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
 }
 
-h1,
-h2,
-h3 {
-  margin: 0;
-  font-family: var(--font-display);
-  font-weight: 700;
-  color: var(--color-text-title);
+/* Brand gradient (135deg, as on the site): primary buttons and small accents only, never page backgrounds. */
+@utility bg-brand-gradient {
+  background-image: linear-gradient(135deg, #ffbf00, #ff4000);
 }
 
-:focus-visible {
-  outline: 2px solid var(--color-orange);
-  outline-offset: 2px;
-}
+/* Dark theme (default): same tokens, different values, so every utility switches automatically. */
+@layer base {
+  :root[data-theme='dark'] {
+    color-scheme: dark;
 
-/* Accessible label hidden from sighted users. */
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
-  border: 0;
-}
+    --color-bg: #000000;
+    --color-surface: #0a0a0a;
+    --color-surface-raised: #171717;
+    --color-line: #404040;
+    --color-line-subtle: #262626;
+    --color-overlay: rgb(0 0 0 / 0.7);
 
-/* Buttons (44px minimum touch target) */
-.button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 44px;
-  padding: 0 var(--space-2);
-  -webkit-tap-highlight-color: transparent;
-  font-family: var(--font-body);
-  font-size: 14px;
-  font-weight: 500;
-  border-radius: var(--radius-sm);
-  border: 1px solid transparent;
-  cursor: pointer;
-  transition:
-    transform var(--transition),
-    background-color var(--transition),
-    border-color var(--transition),
-    color var(--transition);
-}
+    --color-title: #fafafa;
+    --color-body: #f6f6f6;
+    --color-secondary: #e5e5e5;
+    --color-muted: #a3a3a3;
+    --color-neutral: #737373;
+    --color-neutral-light: #525252;
 
-.button:hover {
-  transform: translateY(-1px);
-}
+    --shadow-elevation:
+      0 2px 5px rgb(0 0 0 / 0.5), 0 9px 9px rgb(0 0 0 / 0.4), 0 20px 12px rgb(0 0 0 / 0.3);
 
-.button:active {
-  transform: scale(0.98);
-}
+    /* Faint square grid over the black background, like the dark sections of the site. */
+    --bg-pattern:
+      linear-gradient(rgb(255 255 255 / 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(255 255 255 / 0.05) 1px, transparent 1px);
+  }
 
-.button--primary {
-  color: var(--color-text-title);
-  background: var(--color-orange);
-}
+  body {
+    background-color: var(--color-bg);
+    background-image: var(--bg-pattern, none);
+    background-size: 40px 40px;
+    color: var(--color-body);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
 
-.button--primary:hover {
-  background: var(--color-amber);
-}
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--color-title);
+  }
 
-.button--secondary {
-  color: var(--color-text-body);
-  background: transparent;
-  border-color: var(--color-border);
-}
+  button,
+  [role='button'] {
+    -webkit-tap-highlight-color: transparent;
+  }
 
-.button--secondary:hover {
-  color: var(--color-orange);
-  border-color: var(--color-orange);
-}
-
-.button--danger {
-  color: var(--color-terra);
-  background: transparent;
-  border-color: var(--color-terra);
-}
-
-.button--danger:hover {
-  color: var(--color-text-title);
-  background: var(--color-terra);
+  :focus-visible {
+    outline: 2px solid var(--color-orange);
+    outline-offset: 2px;
+  }
 }

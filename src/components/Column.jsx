@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import TaskCard from './TaskCard.jsx'
-import './Column.css'
 
 const EMPTY_MESSAGES = {
   todo: 'Nada pendiente. Crea una tarea nueva cuando quieras.',
@@ -41,12 +40,11 @@ function Column({
   }
 
   const className = [
-    'column',
-    isActive ? 'column--active' : '',
-    isDragOver ? 'column--drag-over' : '',
-  ]
-    .filter(Boolean)
-    .join(' ')
+    'min-h-40 rounded-lg border p-4 transition sm:block',
+    // Phones: only the active column is visible; tabs switch between them.
+    isActive ? 'block' : 'hidden',
+    isDragOver ? 'border-orange bg-orange/8' : 'border-line bg-surface',
+  ].join(' ')
 
   return (
     <section
@@ -57,20 +55,23 @@ function Column({
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
     >
-      <header className="column__header">
-        <h2 id={`column-title-${status}`} className="column__title">
+      <header className="mb-4 flex items-center justify-between">
+        <h2 id={`column-title-${status}`} className="text-lg font-semibold">
           {title}
         </h2>
-        <span className="column__count" aria-label={`${tasks.length} tareas`}>
+        <span
+          className="inline-flex h-6 min-w-6 items-center justify-center rounded-sm border border-line-subtle bg-surface-raised px-2 font-display text-sm font-semibold text-secondary"
+          aria-label={`${tasks.length} tareas`}
+        >
           {tasks.length}
         </span>
       </header>
       {tasks.length === 0 ? (
-        <p className="column__empty">
+        <p className="rounded-sm border border-dashed border-neutral-light px-4 py-6 text-center text-sm leading-normal text-muted">
           {isFiltering ? 'Ninguna tarea coincide con los filtros.' : EMPTY_MESSAGES[status]}
         </p>
       ) : (
-        <ul className="column__list">
+        <ul className="flex flex-col gap-2">
           {tasks.map((task) => (
             <li key={task.id}>
               <TaskCard

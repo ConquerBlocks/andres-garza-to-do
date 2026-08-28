@@ -31,3 +31,25 @@ export function saveBoard(board) {
     // Storage may be unavailable or full; the app keeps working in memory.
   }
 }
+
+// Theme preference lives under its own key so it never touches the board data.
+export const THEME_STORAGE_KEY = 'taskboard:theme'
+export const THEMES = ['dark', 'light']
+export const DEFAULT_THEME = 'dark'
+
+export function loadTheme() {
+  try {
+    const stored = localStorage.getItem(THEME_STORAGE_KEY)
+    return THEMES.includes(stored) ? stored : DEFAULT_THEME
+  } catch {
+    return DEFAULT_THEME
+  }
+}
+
+export function saveTheme(theme) {
+  try {
+    localStorage.setItem(THEME_STORAGE_KEY, theme)
+  } catch {
+    // Storage may be unavailable; the theme still applies for the session.
+  }
+}
