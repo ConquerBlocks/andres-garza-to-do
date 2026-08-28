@@ -47,6 +47,27 @@ export const sampleBoard = {
       priority: 'medium',
     }),
     createTask({
+      title: 'Preparar la presentación del sprint',
+      description: 'Resumen de objetivos, demo de las funcionalidades nuevas y próximos pasos.',
+      status: 'todo',
+      category: 'trabajo',
+      priority: 'medium',
+    }),
+    createTask({
+      title: 'Pedir cita con el dentista',
+      description: 'Revisión anual; preguntar por la limpieza.',
+      status: 'todo',
+      category: 'personal',
+      priority: 'medium',
+    }),
+    createTask({
+      title: 'Practicar Tailwind con un proyecto pequeño',
+      description: 'Maquetar una landing con utilidades y modo oscuro.',
+      status: 'todo',
+      category: 'estudio',
+      priority: 'low',
+    }),
+    createTask({
       title: 'Revisar pull request del equipo',
       description: 'Revisar los cambios del módulo de facturación.',
       status: 'in_progress',
@@ -61,6 +82,20 @@ export const sampleBoard = {
       priority: 'medium',
     }),
     createTask({
+      title: 'Curso de accesibilidad web',
+      description: 'Módulo 3: formularios, foco visible y lectores de pantalla.',
+      status: 'in_progress',
+      category: 'estudio',
+      priority: 'high',
+    }),
+    createTask({
+      title: 'Actualizar dependencias del proyecto',
+      description: 'Subir Vite y React a la última versión y comprobar que el build sigue limpio.',
+      status: 'in_progress',
+      category: 'trabajo',
+      priority: 'low',
+    }),
+    createTask({
       title: 'Ejercicios de algoritmos',
       description: 'Resolver tres problemas de grafos.',
       status: 'done',
@@ -73,6 +108,13 @@ export const sampleBoard = {
       status: 'done',
       category: 'personal',
       priority: 'low',
+    }),
+    createTask({
+      title: 'Apuntarse al gimnasio',
+      description: 'Matrícula hecha; primera clase el lunes.',
+      status: 'done',
+      category: 'personal',
+      priority: 'medium',
     }),
     createTask({
       title: 'Configurar entorno de desarrollo',
